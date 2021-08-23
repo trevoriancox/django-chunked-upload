@@ -90,10 +90,16 @@ class ChunkedUpload(AbstractChunkedUpload):
     """
     Default chunked upload model.
     """
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='chunked_uploads',
-        null=DEFAULT_MODEL_USER_FIELD_NULL,
-        blank=DEFAULT_MODEL_USER_FIELD_BLANK
-    )
+    class Meta:
+        managed=False
+        app_label = 'chunked_upload'
+    # Even if this model is not used or the table is not created,
+    # the Django Admin delete user code will look for these related objects
+    # if this code is included:
+    # user = models.ForeignKey(
+    #     settings.AUTH_USER_MODEL,
+    #     on_delete=models.CASCADE,
+    #     related_name='chunked_uploads',
+    #     null=DEFAULT_MODEL_USER_FIELD_NULL,
+    #     blank=DEFAULT_MODEL_USER_FIELD_BLANK
+    # )
